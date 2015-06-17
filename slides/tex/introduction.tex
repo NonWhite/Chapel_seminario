@@ -1,0 +1,69 @@
+\section{Introdução}
+% Favorite Languages?% Fortran, C, C++, Java, Matlab, Python, Perl, C#, ... Parallel Programming Models?% MPI, OpenMP, UPC, CAF, Pthreads, CUDA, ...
+
+\begin{frame}{Soma de matrizes}
+	\centering
+	Quantas linhas são necessários para a sua implementação?
+\end{frame}
+
+\begin{frame}[fragile]{Soma de matrizes}
+	\begin{block}{OpenMP}
+		\begin{lstlisting}
+			#pragma omp shared( A , B , C , chunk ){
+			   #pragma omp for schedule( static , chunk )
+			   for( i = 0 ; i < N ; i++)
+			      for( j = 0 ; j < N ; j++)
+			         C[ i ][ j ] = A[ i ][ j ] + B[ i ][ j ] ;
+			}
+		\end{lstlisting}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Soma de matrizes}
+	\begin{block}{CUDA}
+		\begin{lstlisting}
+			const int BlockSizeX = 32 ;
+			const int Factor = 4 ;
+			const int BlockSizeY = BlockSizeX / Factor ;
+			__global__ void add( int* C ,  int* A , int* B , const int N ){
+			   int col = blockIdx.x * BlockSizeX + threadIdx.x ;
+			   int row = blockIdx.y * BlockSizeX + threadIdx.y * Factor ;
+			   for( i = 0 ; i < Factor ; i++)
+			      C[ ( row + i ) * N + col ] =  A[ ( row + i ) * N + col ] + B[ ( row + i ) * N + col ] ;
+			}
+		\end{lstlisting}
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Soma de matrizes}
+	\begin{block}{OpenMPI}
+		\begin{lstlisting}
+			MPI_Comm_size( MPI_COMM_WORLD , &npes ) ;
+			MPI_Comm_rank( MPI_COMM_WORLD , &myrank ) ;
+			if( myrank == ROOT )
+			   for( target = 0 ; target < npes ; i++){
+			      MPI_Send( A+N*target , N , MPI_INT , target , target , MPI_COMM_WORLD ) ;
+			      MPI_Send( B+N*target , N , MPI_INT , target , target , MPI_COMM_WORLD ) ;
+			   }
+			MPI_Recv( myA , N , MPI_INT , ROOT , myrank , MPI_COMM_WORLD , &status ) ;
+			MPI_Recv( myB , N , MPI_INT , ROOT , myrank , MPI_COMM_WORLD , &status ) ;
+			for( i = 0 ; i < N ; i++) myC[ i ] = myA[ i ] + myB[ i ] ;
+			MPI_Send( myC , N , MPI_INT , ROOT , 0 , MPI_COMM_WORLD ) ;
+			if( myrank == ROOT )
+			   for( sender = 0 ; sender < npes ; sender++)
+			      MPI_Recv( C+N*sender , N , MPI_INT , sender , 0 , MPI_COMM_WORLD , &status ) ;
+		\end{lstlisting}
+	\end{block}
+\end{frame}
+
+\begin{frame}{Soma de matrizes}
+	\begin{block}{Linhas}
+		\begin{itemize}
+			\item OpenMP: 6
+			\item CUDA: 9
+			\item OpenMPI: 14
+		\end{itemize}
+	\end{block}
+	\centering
+	Então, quantas linhas são necessários com Chapel?
+\end{frame}

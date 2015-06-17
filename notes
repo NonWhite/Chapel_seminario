@@ -1,0 +1,35 @@
+NOTAS
+--------------------------
+
+/* ======== README.executing ======== */
+
+1. Para definir cuantos Locales seran usados al EJECUTAR
+	./a.out --numLocales=4
+	./a.out -nl 4
+
+2. Cada valor de un parametro de configuracion puede ser sobreescrito con:
+	./a.out --<configVar>=<valor>
+
+3. forall se ejecuta en paralelo
+
+4. Revisar "Controlling degree of Data Parallelism" (linea 91)
+
+5. Se trabaja con MODULOS (parecido a clases al parecer)
+
+6. La variable de entorno CHPL_RT_NUM_THREADS_PER_LOCALE puede ser usada para cambiar el numero de threads usados por el programa (lina 155)
+
+7. Revisar los tipos de sistemas en los que se usa (cray, etc...)
+
+8. La variable de entorno CHPL_RT_CALL_STACK_SIZE se usa para cambiar el tamaño de pila de las tareas
+
+9. Se puede agregar un flag al ejecutar un programa:
+	--verbose / -v : imprimira comandos de inicio de programa y de cada locale
+	--quiet / -q : no se imprimen warnings
+
+10. Variables de configuracion default para debug de memoria (linea 283)
+
+11. Hello5 juega con el numero de tareas en paralelo que se ejecutan
+
+12. Coforall crea una tarea nueva por cada iteracion
+
+/* ======== 
