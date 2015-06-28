@@ -1,0 +1,9 @@
+\section{Conclusões}
+Nossas conclusões finais são:
+\begin{itemize}
+	\item Com OpenMPI não sempre ter mais processos paralelos é sinônimo de melhor tempo de execução. Isto é devido a que o tempo de comunicação entre os processos pode ter um custo elevado.
+	\item Ao executar programas com varias máquinas o tempo de execução pode ser maior do que o tempo da execução sequencial. É importante ter em consideração os tempos de comunicação entre processos de ambas máquinas.
+	\item Para o envio de dados grandes é aconselhável usar as funções não bloqueantes de OpenMPI. Fazer isto reduz os tempos de espera.
+\end{itemize}
+
+\clearpage

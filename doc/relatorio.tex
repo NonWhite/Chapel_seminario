@@ -1,0 +1,34 @@
+\documentclass[12pt,a4paper]{article}
+ 
+\usepackage{mystyle}
+ 
+\begin{document}
+
+\pagestyle{empty}
+\input{./tex/capa}
+%TODO
+\input{./tex/abstract}
+
+\tableofcontents
+\clearpage
+\listoffigures
+\clearpage
+
+\pagestyle{plain}
+% TODO
+\input{./tex/introduction}
+% TODO
+\input{./tex/history}
+% TODO
+\input{./tex/syntax}
+% TODO
+\input{./tex/experiments}
+% TODO
+\input{./tex/conclusions}
+
+\bibliographystyle{plain}   
+\bibliography{bibliography.bib} 
+
+\input{./tex/appendix}
+ 
+\end{document}
